@@ -20,9 +20,9 @@ Possible operations on the data are:
 The user may also access the raw data if needed.
 
 ### Files used
--[x] chicago.csv
--[x] new_york_city.csv
--[x] washington.csv
+- [x] chicago.csv
+- [x] new_york_city.csv
+- [x] washington.csv
 
 ### Credits
 Guided and inspired by the [Udacity](https://www.udacity.com/) team. Some help was also found on several [stackoverflow](https://stackoverflow.com/) topics.
