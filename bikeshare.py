@@ -92,6 +92,9 @@ def load_data(city, month, day):
 
     return df
 
+# This function displays time stats - the most popular hour, month and weekaday. 
+# Be attentive - it displays only the beginning period of time, 
+# so if the trip started at 23:59 on Sunday it will be shown as a Sunday-trip
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
 
