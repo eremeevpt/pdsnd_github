@@ -1,6 +1,5 @@
 import calendar
 import time
-
 import pandas as pd
 
 CITY_DATA = { 'chicago': 'chicago.csv',
@@ -92,6 +91,9 @@ def load_data(city, month, day):
 
     return df
 
+def time_count(time_type):
+    return len(time_type[time_type == time_type.mode()[0]])
+
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
 
@@ -100,16 +102,13 @@ def time_stats(df):
 
     # display the most common month
     most_common_month = calendar.month_name[df['month'].mode()[0]]
-    com_month_count = len(df[df['month'] == df['month'].mode()[0]])
-    print('The most common month in the given period was {}.\n In this month users took trips {} times.\n'.format(most_common_month, com_month_count))
+    print('The most common month in the given period was {}.\n In this month users took trips {} times.\n'.format(most_common_month, time_count(df['month'])))
     # display the most common day of week
     most_common_weekday = calendar.day_name[df['day of week'].mode()[0]]
-    com_day_count = len(df[df['day of week'] == df['day of week'].mode()[0]])
-    print('The most common day of week in the given period was {}.\n In this weekday users took trips {} times.\n'.format(most_common_weekday, com_day_count))
+    print('The most common day of week in the given period was {}.\n In this weekday users took trips {} times.\n'.format(most_common_weekday, time_count(df['day of week'])))
     # display the most common start hour
     most_common_hour = df['hour'].mode()[0]
-    com_hour_count = len(df[df['hour'] == df['hour'].mode()[0]])
-    print('The most common hour to start a trip in the given period was {}.\n In this hour users started their trips {} times.\n'.format(most_common_hour, com_hour_count))
+    print('The most common hour to start a trip in the given period was {}.\n In this hour users started their trips {} times.\n'.format(most_common_hour, time_count(df['hour'])))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
