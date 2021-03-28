@@ -1,7 +1,6 @@
+import calendar
 import time
 import pandas as pd
-import numpy as np
-import calendar
 
 CITY_DATA = { 'chicago': 'chicago.csv',
               'new york city': 'new_york_city.csv',
@@ -92,10 +91,13 @@ def load_data(city, month, day):
 
     return df
 
+def common_count(time_type):
+    return len(time_type[time_type == time_type.mode()[0]])
+
+def time_stats(df):
 # This function displays time stats - the most popular hour, month and weekaday. 
 # Be attentive - it displays only the beginning period of time, 
 # so if the trip started at 23:59 on Sunday it will be shown as a Sunday-trip
-def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
 
     print('\nCalculating The Most Frequent Times of Travel...\n')
@@ -103,16 +105,13 @@ def time_stats(df):
 
     # display the most common month
     most_common_month = calendar.month_name[df['month'].mode()[0]]
-    com_month_count = len(df[df['month'] == df['month'].mode()[0]])
-    print('The most common month in the given period was {}.\n In this month users took trips {} times.\n'.format(most_common_month, com_month_count))
+    print('The most common month in the given period was {}.\n In this month users took trips {} times.\n'.format(most_common_month, common_count(df['month'])))
     # display the most common day of week
     most_common_weekday = calendar.day_name[df['day of week'].mode()[0]]
-    com_day_count = len(df[df['day of week'] == df['day of week'].mode()[0]])
-    print('The most common day of week in the given period was {}.\n In this weekday users took trips {} times.\n'.format(most_common_weekday, com_day_count))
+    print('The most common day of week in the given period was {}.\n In this weekday users took trips {} times.\n'.format(most_common_weekday, common_count(df['day of week'])))
     # display the most common start hour
     most_common_hour = df['hour'].mode()[0]
-    com_hour_count = len(df[df['hour'] == df['hour'].mode()[0]])
-    print('The most common hour to start a trip in the given period was {}.\n In this hour users started their trips {} times.\n'.format(most_common_hour, com_hour_count))
+    print('The most common hour to start a trip in the given period was {}.\n In this hour users started their trips {} times.\n'.format(most_common_hour, common_count(df['hour'])))
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -125,16 +124,13 @@ def station_stats(df):
 
     # display most commonly used start station
     most_common_start = df['Start Station'].mode()[0]
-    com_start_count = len(df[df['Start Station'] == df['Start Station'].mode()[0]])
-    print('The most commonly used start station in the given period was {}.\n Users started there {} times.\n'.format(most_common_start, com_start_count))
+    print('The most commonly used start station in the given period was {}.\n Users started there {} times.\n'.format(most_common_start, common_count(df['Start Station'])))
     # display most commonly used end station
     most_common_end = df['End Station'].mode()[0]
-    com_end_count = len(df[df['End Station'] == df['End Station'].mode()[0]])
-    print('The most commonly used end station in the given period was {}.\n Users ended their trip there {} times.\n'.format(most_common_end, com_end_count))
+    print('The most commonly used end station in the given period was {}.\n Users ended their trip there {} times.\n'.format(most_common_end, common_count(df['End Station'])))
     # display most frequent combination of start station and end station trip
     most_common_route = (df['Start Station'] + ' - ' + df['End Station']).mode()[0]
-    com_route_count = len(df[df['Start Station'] + ' - ' + df['End Station'] == (df['Start Station'] + ' - ' + df['End Station']).mode()[0]]) 
-    print('The most common route in the given period was {}.\n Users used it {} times.\n'.format(most_common_route, com_route_count))
+    print('The most common route in the given period was {}.\n Users used it {} times.\n'.format(most_common_route, common_count(df['Start Station'] + ' - ' + df['End Station'])))
     
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -180,8 +176,7 @@ def user_stats(df):
         if recent_year > 2010:
             print(' There is probably a mistake in the database. It is hard to imagine a person of this age to use bike sharing. The result needs a double check!\n')
         most_common_year = int(df['Birth Year'].mode()[0])
-        com_year_count = len(df[df['Birth Year'] == df['Birth Year'].mode()[0]])
-        print('\nThe most common year of client\'s birth is {}.\n There were {} users of this age.\n'.format(most_common_year, com_year_count))
+        print('\nThe most common year of client\'s birth is {}.\n There were {} users of this age.\n'.format(most_common_year, common_count(df['Birth Year'])))
 
 def main():
     while True:
